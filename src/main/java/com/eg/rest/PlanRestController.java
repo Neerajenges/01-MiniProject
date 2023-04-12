@@ -65,8 +65,8 @@ public class PlanRestController {
 		
 	}
 	@DeleteMapping("/plan/{planId}")
-	public ResponseEntity<String> deletePlan(@PathVariable Integer palnId){
-		boolean isDeleted = planService.deletePlanById(palnId);
+	public ResponseEntity<String> deletePlan(@PathVariable Integer planId){
+		boolean isDeleted = planService.deletePlanById(planId);
 		String msg="";
 		if(isDeleted) {
 			msg="Plan Deleted";
@@ -76,7 +76,7 @@ public class PlanRestController {
 		return new ResponseEntity<>(msg,HttpStatus.OK);
 		
 	}
-	@PutMapping("/status-change/{planId/{status}")
+	@PutMapping("/status-change/{planId}/{status}")
 	public ResponseEntity<String> statusChange(@PathVariable Integer planId,@PathVariable String status){
 		boolean isStatusChanged = planService.planStatusChange(planId, status);
 		String msg="";
