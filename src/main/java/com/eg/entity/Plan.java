@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import lombok.Data;
 
 @Entity
@@ -34,6 +37,20 @@ public class Plan {
 	
 	@Column(name="PLAN_CATEGORY_ID")
 	private Integer planCategoryId;
+	
+	@Column(name="CREATED_BY")
+	private String createdBy;
+	
+	@Column(name="UPDATED_BY")
+	private String updatedBy;
+	
+	@Column(name="CREATED_DATE",updatable = false)
+	@CreationTimestamp
+	private LocalDate createDate;
+	
+	@Column(name="UPDATED_DATE",insertable = false)
+	@UpdateTimestamp
+	private LocalDate updateDate;
 	
 	
 	
