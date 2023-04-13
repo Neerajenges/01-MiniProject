@@ -29,12 +29,14 @@ public class PlanCategory {
 	
 	@Column(name="CREATED_BY")
 	private String createdBy;
+	
 	@Column(name="UPDATED_BY")
 	private String updatedBy;
 	
 	@Column(name="CREATED_DATE",updatable = false)
 	@CreationTimestamp
 	private LocalDate createDate;
+	
 	@Column(name="UPDATED_DATE",insertable = false)
 	@UpdateTimestamp
 	private LocalDate updateDate;

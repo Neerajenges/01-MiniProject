@@ -1,0 +1,25 @@
+server:
+  port: 9090
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    password: neerajeg
+    url: "jdbc:h2:mem:testdb"
+    username: neerajeg
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+plan-api:
+ messages:
+  planSaveSucc: Plan saved Sucessfully
+  planSaveFail: Plan save Failed
+  planUpdateSucc: Plan update Sucessfully
+  planUpdateFail: Plan update Failed
+  planDeleteSucc: Plan Deleted Sucessfully
+  planDeleteFail: Plan Delete Fail
+  planStatusChangeSucc: Plan Status changed Successfully
+  planStatusChangeFail: Plan Status Change Failed
+  
+
+     

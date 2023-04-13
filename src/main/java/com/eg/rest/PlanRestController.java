@@ -15,78 +15,104 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eg.constants.AppConstants;
 import com.eg.entity.Plan;
+import com.eg.props.AppProperties;
 import com.eg.service.PlanService;
 
 @RestController
 public class PlanRestController {
-	@Autowired
+	// @Autowired
 	private PlanService planService;
-	
+
+	/*
+	 * @Autowired private AppProperties appProps;
+	 */
+	// constructor injection to prevent write Map<String, String> messages =
+	// appProps.getMessages();
+	private Map<String, String> messages;
+
+	public PlanRestController(PlanService planService, AppProperties appProps) {
+		this.planService = planService;
+		this.messages = appProps.getMessages();
+
+	}
+
 	@GetMapping("/categories")
-	public ResponseEntity<Map<Integer,String>> planCategories(){
+	public ResponseEntity<Map<Integer, String>> planCategories() {
 		Map<Integer, String> categories = planService.getPlanCategories();
-		return new ResponseEntity<>(categories,HttpStatus.OK);
-		
+		return new ResponseEntity<>(categories, HttpStatus.OK);
+
 	}
+
 	@PostMapping("/plan")
-	public ResponseEntity<String> savePlan(@RequestBody Plan plan){
-		String responseMsg="";
+	public ResponseEntity<String> savePlan(@RequestBody Plan plan) {
+		String responseMsg =AppConstants.EMPTY_STR;
 		boolean isSaved = planService.savePlan(plan);
-		if(isSaved) {
-			responseMsg="Plan saved";
-		}else {
-			responseMsg="Plan not saved";
+		if (isSaved) {
+
+			responseMsg = messages.get(AppConstants.PLAN_SAVE_SUCC);
+
+		} else {
+			responseMsg = messages.get(AppConstants.PLAN_SAVE_FAIL);
 		}
-		return new ResponseEntity<>(responseMsg,HttpStatus.CREATED);
-	
+		return new ResponseEntity<>(responseMsg, HttpStatus.CREATED);
+
 	}
+
 	@GetMapping("/plans")
-	public ResponseEntity<List<Plan>> plans(){
+	public ResponseEntity<List<Plan>> plans() {
 		List<Plan> allPlans = planService.getAllPlans();
-		return new ResponseEntity<>(allPlans,HttpStatus.OK);
-		
+		return new ResponseEntity<>(allPlans, HttpStatus.OK);
+
 	}
+
 	@GetMapping("/plan/{planId}")
-	public ResponseEntity<Plan> editPlan(@PathVariable Integer planId){
+	public ResponseEntity<Plan> editPlan(@PathVariable Integer planId) {
 		Plan plan = planService.getPlanById(planId);
-		return new ResponseEntity<>(plan,HttpStatus.OK);
+		return new ResponseEntity<>(plan, HttpStatus.OK);
 	}
+
 	@PutMapping("/plan")
-	public ResponseEntity<String> updatePlan(@RequestBody Plan plan){
-		 boolean isUpdated = planService.updatePlan(plan);
-		String msg="";
-		if(isUpdated) {
-			msg="Plan Updated";
-		}else {
-			msg="Plan not Updated";
+	public ResponseEntity<String> updatePlan(@RequestBody Plan plan) {
+		boolean isUpdated = planService.updatePlan(plan);
+		String msg =AppConstants.EMPTY_STR;
+
+		if (isUpdated) {
+			msg = messages.get(AppConstants.PLAN_UPDATE_SUCC);
+		} else {
+			msg = messages.get(AppConstants.PLAN_UPDATE_FAIL);
 		}
-		return new ResponseEntity<>(msg,HttpStatus.OK);
-		
+		return new ResponseEntity<>(msg, HttpStatus.OK);
+
 	}
+
 	@DeleteMapping("/plan/{planId}")
-	public ResponseEntity<String> deletePlan(@PathVariable Integer planId){
+	public ResponseEntity<String> deletePlan(@PathVariable Integer planId) {
 		boolean isDeleted = planService.deletePlanById(planId);
-		String msg="";
-		if(isDeleted) {
-			msg="Plan Deleted";
-		}else {
-			msg="Plan not Deleted";
+		String msg = AppConstants.EMPTY_STR;
+
+		if (isDeleted) {
+			msg = messages.get(AppConstants.PLAN_DELETE_SUCC);
+		} else {
+			msg = messages.get(AppConstants.PLAN_DELETE_FAIL);
 		}
-		return new ResponseEntity<>(msg,HttpStatus.OK);
-		
+		return new ResponseEntity<>(msg, HttpStatus.OK);
+
 	}
+
 	@PutMapping("/status-change/{planId}/{status}")
-	public ResponseEntity<String> statusChange(@PathVariable Integer planId,@PathVariable String status){
+	public ResponseEntity<String> statusChange(@PathVariable Integer planId, @PathVariable String status) {
 		boolean isStatusChanged = planService.planStatusChange(planId, status);
-		String msg="";
+		String msg = AppConstants.EMPTY_STR;
+
 		if (isStatusChanged) {
-			msg="status changed";
-		}else {
-			msg="status not changed";
+			msg = messages.get(AppConstants.PLAN_CHANGE_STATUS_SUCC);
+		} else {
+			msg = messages.get(AppConstants.PLAN_CHANGE_STATUS_FAIL);
 		}
-		return new ResponseEntity<>(msg,HttpStatus.OK);
-		
+		return new ResponseEntity<>(msg, HttpStatus.OK);
+
 	}
 
 }
